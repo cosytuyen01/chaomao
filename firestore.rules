@@ -1,0 +1,48 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /club/{docId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /records/{recordId} {
+      allow read: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && get(/databases/$(database)/documents/birds/$(request.resource.data.birdId)).data.ownerId == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /notificationSettings/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /birds/{birdId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /birdSchedules/{birdId} {
+      function ownsBird() {
+        return get(/databases/$(database)/documents/birds/$(birdId)).data.ownerId == request.auth.uid;
+      }
+
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid
+        && ownsBird();
+      allow delete: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+    }
+  }
+}
