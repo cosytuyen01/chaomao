@@ -3,12 +3,13 @@ import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import { generateMessagingSw } from './scripts/generate-messaging-sw.ts'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [generateMessagingSw(), react(), tailwindcss()],
   server: {
     port: 3000,
   },

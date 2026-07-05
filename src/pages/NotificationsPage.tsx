@@ -10,6 +10,7 @@ import {
   requestNotificationPermission,
   sendTestNotification,
 } from '../hooks/useScheduleReminders'
+import { isPushConfigured, registerPushToken } from '../firebase/messaging'
 import { useSchedule } from '../hooks/useSchedule'
 import type { NotificationSettings } from '../types'
 import { DAY_LABELS, type DayKey } from '../types'
@@ -37,6 +38,7 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
   )
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [pushReady, setPushReady] = useState(false)
 
   const reminders = getTodayRemindersPreview(entries)
   const mobile = isMobileDevice()
@@ -65,6 +67,10 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
     setPermission(Notification.permission)
     if (granted) {
       setSettings((s) => ({ ...s, enabled: true }))
+      if (user) {
+        const token = await registerPushToken(user.uid)
+        setPushReady(Boolean(token))
+      }
     }
   }
 
@@ -76,6 +82,10 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
         ...settings,
         userId: user.uid,
       })
+      if (settings.enabled && Notification.permission === 'granted') {
+        const token = await registerPushToken(user.uid)
+        setPushReady(Boolean(token))
+      }
       setMessage('Đã lưu cài đặt thông báo!')
       setTimeout(() => setMessage(''), 3000)
     } finally {
@@ -98,15 +108,20 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
 
       {mobile && (
         <div className="mb-4 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-text">
-          <p className="font-medium text-primary">Hướng dẫn trên điện thoại</p>
+          <p className="font-medium text-primary">Nhận thông báo khi tắt app</p>
           <ul className="mt-2 list-disc space-y-1 pl-4 text-text-muted">
-            <li>Bật thông báo và lưu cài đặt bên dưới.</li>
             <li>
               {ios && !standalone
-                ? 'iPhone: Safari → Chia sẻ → Thêm vào Màn hình chính, rồi mở app từ icon.'
-                : 'Thêm trang vào Màn hình chính để nhận thông báo tốt hơn.'}
+                ? 'iPhone: Safari → Chia sẻ → Thêm vào Màn hình chính, mở từ icon.'
+                : 'Android: Chrome → menu → Thêm vào Màn hình chính.'}
             </li>
-            <li>Giữ app mở hoặc ở nền — sẽ có banner + rung khi đến giờ.</li>
+            <li>Bật thông báo và nhấn <strong>Lưu cài đặt</strong> để đăng ký push.</li>
+            <li>Sau khi setup, có thể tắt app — server sẽ gửi push đúng giờ.</li>
+            {!isPushConfigured() && (
+              <li className="text-amber-700">
+                Cần thêm VAPID key (VITE_FIREBASE_VAPID_KEY) để push khi tắt app.
+              </li>
+            )}
           </ul>
         </div>
       )}
@@ -167,9 +182,15 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
             </label>
 
             <p className="text-sm leading-relaxed text-text-muted">
-              Nhắc tự động trên mọi trang khi đã bật ({todayLabel}). Trên điện thoại
-              sẽ kèm banner trong app và rung máy.
+              Nhắc tự động trên mọi trang ({todayLabel}). App mở: banner + rung.
+              App tắt: push từ server nếu đã thêm Màn hình chính.
             </p>
+
+            {pushReady && (
+              <p className="rounded-xl bg-success/10 px-3 py-2 text-sm text-success">
+                Đã đăng ký push — có thể nhận thông báo khi tắt app.
+              </p>
+            )}
 
             <div className="flex flex-wrap gap-3">
               <button

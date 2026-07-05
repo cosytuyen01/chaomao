@@ -1,4 +1,4 @@
-import { Cat } from '../icons'
+import { APP_LOGO } from '../../utils/branding'
 
 interface AuthLayoutProps {
   title: string
@@ -26,9 +26,11 @@ export default function AuthLayout({
           aria-hidden
         />
         <div className="relative text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
-            <Cat className="h-9 w-9" strokeWidth={1.75} />
-          </span>
+          <img
+            src={APP_LOGO}
+            alt="Chào Chào Mao"
+            className="mx-auto h-20 w-20 rounded-full bg-white/20 object-cover shadow-sm ring-2 ring-white/30"
+          />
           <h1 className="mt-4 text-2xl font-bold text-white">{title}</h1>
           <p className="mt-2 text-sm text-white/85">{subtitle}</p>
         </div>

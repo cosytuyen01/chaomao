@@ -1,3 +1,5 @@
+import { APP_LOGO_PATH } from './branding'
+
 export function isMobileDevice(): boolean {
   if (typeof navigator === 'undefined') return false
   return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)
@@ -44,8 +46,8 @@ export async function showSystemNotification(
 
   const options: NotificationOptions & { vibrate?: number[] } = {
     body: payload.body,
-    icon: '/favicon.svg',
-    badge: '/favicon.svg',
+    icon: APP_LOGO_PATH,
+    badge: APP_LOGO_PATH,
     tag: payload.tag,
     vibrate: [200, 100, 200],
   }
