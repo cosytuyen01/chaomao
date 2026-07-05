@@ -67,6 +67,21 @@ export default function TimedCareFields({ care, onChange }: TimedCareFieldsProps
           </div>
         )
       })}
+      <div className="col-span-1 md:col-span-2">
+        <label className={labelClass}>
+          <span className="inline-flex items-center gap-1.5">
+            <CARE_ICONS.notes className="h-4 w-4 text-primary" strokeWidth={2} />
+            Ghi chú
+          </span>
+          <textarea
+            className={`${inputClass} min-h-[80px] resize-y`}
+            placeholder="Ghi chú thêm cho ngày này..."
+            value={care.notes}
+            onChange={(e) => onChange('notes', e.target.value)}
+            rows={3}
+          />
+        </label>
+      </div>
     </>
   )
 }

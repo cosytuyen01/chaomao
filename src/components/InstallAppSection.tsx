@@ -3,7 +3,7 @@ import { Download, Smartphone } from 'lucide-react'
 import { APP_LOGO } from '../utils/branding'
 import { usePwaInstall } from '../hooks/usePwaInstall'
 
-const cardClass = 'rounded-2xl bg-surface p-5 shadow-sm'
+const cardClass = 'card-modern p-5'
 
 export default function InstallAppSection() {
   const { canInstall, isInstalled, isIos, installing, promptInstall } =

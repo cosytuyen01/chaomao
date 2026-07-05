@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import { ArrowRight, ChevronRight } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import LoadingScreen from '../components/LoadingScreen'
 import AuthField from '../components/auth/AuthField'
@@ -48,22 +49,28 @@ export default function RegisterPage() {
 
   return (
     <AuthLayout
-      title="Đăng ký"
-      subtitle="Tạo tài khoản thành viên CLB Chào Chào Mao"
+      title="Chào Mào"
+      subtitle="Tạo tài khoản thành viên CLB"
       footer={
-        <>
+        <span className="inline-flex items-center gap-1">
           Đã có tài khoản?{' '}
-          <Link to="/login" className="font-semibold text-primary hover:underline">
+          <Link
+            to="/login"
+            className="inline-flex items-center gap-0.5 font-semibold text-primary hover:underline"
+          >
             Đăng nhập
+            <ChevronRight className="h-4 w-4" strokeWidth={2.5} />
           </Link>
-        </>
+        </span>
       }
     >
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <AuthField
           label="Họ tên"
-          variant="beige"
+          icon="user"
+          showClear
           type="text"
+          autoComplete="name"
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           placeholder="Nguyễn Văn A"
@@ -71,7 +78,8 @@ export default function RegisterPage() {
         />
         <AuthField
           label="Số điện thoại"
-          variant="blue"
+          icon="phone"
+          showClear
           type="tel"
           inputMode="tel"
           autoComplete="tel"
@@ -82,8 +90,9 @@ export default function RegisterPage() {
         />
         <AuthField
           label="Mật khẩu"
-          variant="blue"
+          icon="lock"
           type="password"
+          autoComplete="new-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Ít nhất 6 ký tự"
@@ -91,8 +100,9 @@ export default function RegisterPage() {
         />
         <AuthField
           label="Xác nhận mật khẩu"
-          variant="beige"
+          icon="lock"
           type="password"
+          autoComplete="new-password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Nhập lại mật khẩu"
@@ -100,7 +110,7 @@ export default function RegisterPage() {
         />
 
         {error && (
-          <p className="rounded-xl bg-primary/8 px-4 py-2.5 text-sm text-primary">
+          <p className="rounded-2xl bg-primary/8 px-4 py-2.5 text-sm text-primary">
             {error}
           </p>
         )}
@@ -108,9 +118,14 @@ export default function RegisterPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-1 w-full rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-2xl bg-primary py-3.5 text-base font-semibold text-white shadow-[0_6px_20px_rgba(37,99,235,0.4)] transition hover:bg-primary-dark active:scale-[0.98] disabled:opacity-60"
         >
-          {submitting ? 'Đang đăng ký...' : 'Đăng ký'}
+          {submitting ? 'Đang đăng ký...' : (
+            <>
+              Đăng ký
+              <ArrowRight className="h-5 w-5" strokeWidth={2.25} />
+            </>
+          )}
         </button>
       </form>
     </AuthLayout>

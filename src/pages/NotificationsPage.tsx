@@ -21,7 +21,7 @@ import {
   isStandalonePwa,
 } from '../utils/notifications'
 
-const cardClass = 'rounded-2xl bg-surface p-5 shadow-sm'
+const cardClass = 'card-modern p-5'
 
 export default function NotificationsPage({ embedded }: { embedded?: boolean }) {
   const { user } = useAuth()
@@ -170,7 +170,7 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
       </div>
 
       <div className={`${cardClass} flex flex-col gap-4 mt-4`}>
-        <h3 className="font-semibold text-text">Cài đặt</h3>
+        <h3 className="font-semibold text-text">Thông báo</h3>
 
         {permission === 'denied' && (
           <div className="rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-800">

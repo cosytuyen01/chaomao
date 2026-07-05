@@ -1,4 +1,4 @@
-import { APP_LOGO } from '../../utils/branding'
+import { APP_LOGO, HOME_BG } from '../../utils/branding'
 
 interface AuthLayoutProps {
   title: string
@@ -14,33 +14,40 @@ export default function AuthLayout({
   footer,
 }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-page">
-      <div className="relative overflow-hidden bg-primary px-5 pb-12 pt-8">
-        <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-right-top"
-          style={{ backgroundImage: "url('/bgpage.png')" }}
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/20 to-primary"
-          aria-hidden
-        />
-        <div className="relative text-center">
-          <img
-            src={APP_LOGO}
-            alt="Chào Chào Mao"
-            className="mx-auto h-20 w-20 rounded-full bg-white/20 object-cover shadow-sm ring-2 ring-white/30"
-          />
-          <h1 className="mt-4 text-2xl font-bold text-white">{title}</h1>
-          <p className="mt-2 text-sm text-white/85">{subtitle}</p>
-        </div>
-      </div>
+    <div className="relative isolate flex min-h-[100dvh] flex-col overflow-hidden bg-[#e8f3ff]">
+      <div
+        className="pointer-events-none absolute inset-0 bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${HOME_BG})` }}
+        aria-hidden
+      />
 
-      <div className="flex flex-1 flex-col bg-page px-5 py-8">
-        <div className="rounded-2xl border border-border/80 bg-white p-6 shadow-sm">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-blue-900/15 to-transparent"
+        aria-hidden
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-5 py-10">
+        <div className="mb-6 text-center">
+          <div className="mx-auto w-fit rounded-full p-1 shadow-[0_0_0_4px_rgba(255,255,255,0.35),0_8px_32px_rgba(37,99,235,0.25)]">
+            <img
+              src={APP_LOGO}
+              alt="Chào Chào Mao"
+              className="h-24 w-24 rounded-full object-cover ring-2 ring-white/80"
+            />
+          </div>
+          <h1 className="mt-5 text-[1.75rem] font-bold tracking-tight text-white drop-shadow-[0_2px_12px_rgba(15,23,42,0.3)]">
+            {title}
+          </h1>
+          <p className="mt-2 max-w-xs text-sm leading-relaxed text-white/95 drop-shadow-[0_1px_8px_rgba(15,23,42,0.25)]">
+            {subtitle}
+          </p>
+        </div>
+
+        <div className="w-full max-w-[22rem] rounded-3xl bg-white p-6 shadow-[0_16px_48px_rgba(37,99,235,0.18)]">
           {children}
         </div>
-        <div className="mt-6 text-center text-sm text-text-muted">{footer}</div>
+
+        <div className="mt-6 text-center text-sm text-slate-600">{footer}</div>
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ import AddBirdPage from './pages/AddBirdPage'
 import BirdDetailPage from './pages/BirdDetailPage'
 import ReferenceSchedulePage from './pages/ReferenceSchedulePage'
 import SchedulePage from './pages/SchedulePage'
-import RecordsPage from './pages/RecordsPage'
+import ExpensesPage from './pages/ExpensesPage'
 import SettingsPage from './pages/SettingsPage'
 import MemberProfilePage from './pages/MemberProfilePage'
 import MemberBirdRecordsPage from './pages/MemberBirdRecordsPage'
@@ -36,7 +36,8 @@ export default function App() {
                 element={<ReferenceSchedulePage />}
               />
               <Route path="/schedule" element={<Navigate to="/che-do-di" replace />} />
-              <Route path="/records" element={<RecordsPage />} />
+              <Route path="/chi-tieu" element={<ExpensesPage />} />
+              <Route path="/records" element={<Navigate to="/chi-tieu" replace />} />
               <Route path="/thanh-vien/:userId" element={<MemberProfilePage />} />
               <Route
                 path="/thanh-vien/:userId/chim/:birdId/nhat-ky"

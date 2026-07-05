@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import DetailHero from '../components/detail/DetailHero'
+import SectionHeader from '../components/SectionHeader'
 import { useAuth } from '../context/AuthContext'
 import { useBirds } from '../hooks/useBirds'
 import { saveBirdSchedules, useBirdSchedule } from '../hooks/useBirdSchedule'
@@ -15,10 +17,11 @@ import {
   type DayKey,
   type DaySchedule,
 } from '../types'
+import { HOME_BG } from '../utils/branding'
 
 const labelClass = 'flex flex-col gap-1.5 text-sm font-medium text-text-muted'
 const inputClass =
-  'rounded-xl border-0 bg-input-blue px-3 py-2.5 text-base text-text transition focus:ring-3 focus:ring-primary/15 focus:outline-none'
+  'w-full rounded-2xl border border-border/60 bg-input-blue px-4 py-3 text-base text-text transition focus:ring-3 focus:ring-primary/15 focus:outline-none'
 
 export default function SchedulePage() {
   const { user } = useAuth()
@@ -99,119 +102,125 @@ export default function SchedulePage() {
     }
   }
 
-  if (birdsLoading) {
-    return <p className="py-12 text-center text-text-muted">Đang tải...</p>
-  }
-
-  if (birds.length === 0) {
-    return (
-      <div className="rounded-2xl bg-surface p-8 text-center shadow-sm">
-        <p className="font-medium text-text">Chưa có Chiến binh nào</p>
-        <p className="mt-1 text-sm text-text-muted">
-          Thêm chào mào trước khi tạo chế độ.
-        </p>
-        <Link
-          to="/birds"
-          className="mt-5 inline-block rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white"
-        >
-          Thêm chiến binh
-        </Link>
-      </div>
-    )
-  }
-
   const selectedBird = birds.find((b) => b.id === activeBirdId)
 
+  const modeLabel = applyToAll
+    ? 'Chế độ chung cho tất cả chiến binh'
+    : `Chế độ riêng cho ${selectedBird?.name ?? 'Chiến binh'}`
+
   return (
-    <div>
-      <div className="mb-5">
-        <p className="text-sm text-text-muted">
-          {applyToAll
-            ? 'chế độ chung cho tất cả chiến binh của bạn'
-            : `chế độ riêng cho ${selectedBird?.name ?? 'Chiến binh'}`}
-        </p>
-      </div>
+    <div className="bg-page">
+      <DetailHero
+        imageUrl={HOME_BG}
+        imageAlt="Chế độ"
+        title="Chế độ"
+        subtitle="Chăm sóc 7 ngày trong tuần"
+        showBack={false}
+      />
 
-      <div className="mb-5 space-y-4">
-        <ApplySharedSwitch checked={applyToAll} onChange={setApplyToAll} />
-
-        {!applyToAll && (
-          <div>
-            <p className="mb-2 text-sm font-medium text-text-muted">Chọn Chiến binh</p>
-            <BirdSelector
-              birds={birds}
-              selectedId={activeBirdId}
-              onSelect={setSelectedBirdId}
-            />
-          </div>
-        )}
-      </div>
-
-      {loadingSchedule ? (
-        <p className="py-12 text-center text-text-muted">Đang tải chế độ...</p>
-      ) : (
-        <div className="space-y-4">
-          {schedule.map((day) => (
-            <div
-              key={day.day}
-              className="overflow-hidden rounded-2xl bg-surface shadow-sm"
+      <div className="relative z-10 space-y-4 px-4 pb-2">
+        {birdsLoading ? (
+          <p className="-mt-8 py-12 text-center text-text-muted">Đang tải...</p>
+        ) : birds.length === 0 ? (
+          <div className="card-modern -mt-12 p-8 text-center">
+            <p className="font-bold text-text">Chưa có Chiến binh nào</p>
+            <p className="mt-1 text-sm text-text-muted">
+              Thêm chào mào trước khi tạo chế độ.
+            </p>
+            <Link
+              to="/birds"
+              className="btn-primary mt-5 inline-block px-6"
             >
-              <div className="flex items-center justify-between gap-2 bg-primary px-4 py-2.5">
-                <span className="font-semibold text-white">{day.label}</span>
-                <CopyDayCareSelect
-                  currentDay={day.day}
-                  options={schedule.map((d) => ({ day: d.day, label: d.label }))}
-                  onCopyFrom={(source) => copyCareFromDay(day.day, source)}
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-3 p-4 md:grid-cols-2">
-                {SIMPLE_CARE_ITEMS.map((item) => {
-                  const Icon = CARE_ICONS[item.key]
-                  return (
-                    <label key={item.key} className={labelClass}>
-                      <span className="inline-flex items-center gap-1.5">
-                        <Icon className="h-4 w-4 text-primary" strokeWidth={2} />
-                        {item.label}
-                      </span>
-                      <input
-                        type="text"
-                        className={inputClass}
-                        placeholder={`Nhập ${item.label.toLowerCase()}...`}
-                        value={day.care[item.key]}
-                        onChange={(e) =>
-                          updateCare(day.day, item.key, e.target.value)
-                        }
-                      />
-                    </label>
-                  )
-                })}
-                <TimedCareFields
-                  care={day.care}
-                  onChange={(field, value) => updateCare(day.day, field, value)}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+              Thêm chiến binh
+            </Link>
+          </div>
+        ) : (
+          <>
+            <div className="card-modern -mt-30 space-y-4 p-4">
+              <p className="text-sm font-medium text-text-muted">{modeLabel}</p>
+              <ApplySharedSwitch checked={applyToAll} onChange={setApplyToAll} />
 
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving || loadingSchedule}
-          className="w-full rounded-xl bg-primary py-3.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60 md:w-auto md:px-8"
-        >
-          {saving
-            ? 'Đang lưu...'
-            : applyToAll
-              ? 'Lưu chế độ chung'
-              : 'Lưu chế độ'}
-        </button>
-        {message && (
-          <p className="rounded-xl bg-success/10 px-3 py-2 text-sm text-success">
-            {message}
-          </p>
+              {!applyToAll && (
+                <div>
+                  <p className="mb-2 text-sm font-medium text-text-muted">
+                    Chọn Chiến binh
+                  </p>
+                  <BirdSelector
+                    birds={birds}
+                    selectedId={activeBirdId}
+                    onSelect={setSelectedBirdId}
+                  />
+                </div>
+              )}
+            </div>
+
+            {loadingSchedule ? (
+              <p className="py-12 text-center text-text-muted">Đang tải chế độ...</p>
+            ) : (
+              <section className="space-y-4">
+                <SectionHeader title="Lịch trong tuần" />
+
+                {schedule.map((day) => (
+                  <div key={day.day} className="card-modern overflow-hidden">
+                    <div className="flex items-center justify-between gap-2 bg-primary px-4 py-2.5">
+                      <span className="font-semibold text-white">{day.label}</span>
+                      <CopyDayCareSelect
+                        currentDay={day.day}
+                        options={schedule.map((d) => ({ day: d.day, label: d.label }))}
+                        onCopyFrom={(source) => copyCareFromDay(day.day, source)}
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 gap-3 p-4 md:grid-cols-2">
+                      {SIMPLE_CARE_ITEMS.map((item) => {
+                        const Icon = CARE_ICONS[item.key]
+                        return (
+                          <label key={item.key} className={labelClass}>
+                            <span className="inline-flex items-center gap-1.5">
+                              <Icon className="h-4 w-4 text-primary" strokeWidth={2} />
+                              {item.label}
+                            </span>
+                            <input
+                              type="text"
+                              className={inputClass}
+                              placeholder={`Nhập ${item.label.toLowerCase()}...`}
+                              value={day.care[item.key]}
+                              onChange={(e) =>
+                                updateCare(day.day, item.key, e.target.value)
+                              }
+                            />
+                          </label>
+                        )
+                      })}
+                      <TimedCareFields
+                        care={day.care}
+                        onChange={(field, value) => updateCare(day.day, field, value)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </section>
+            )}
+
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving || loadingSchedule}
+                className="btn-primary w-full disabled:opacity-60"
+              >
+                {saving
+                  ? 'Đang lưu...'
+                  : applyToAll
+                    ? 'Lưu chế độ chung'
+                    : 'Lưu chế độ'}
+              </button>
+              {message && (
+                <p className="rounded-2xl bg-success/10 px-4 py-2.5 text-center text-sm text-success">
+                  {message}
+                </p>
+              )}
+            </div>
+          </>
         )}
       </div>
     </div>

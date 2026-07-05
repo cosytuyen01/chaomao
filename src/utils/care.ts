@@ -1,6 +1,7 @@
 import type { DayCare } from '../types'
 
 type LegacyCare = Partial<DayCare> & {
+  vitamin?: string
   pellets?: string
   sunbathing?: string
   bathing?: string
@@ -12,7 +13,7 @@ export function normalizeCare(care?: LegacyCare): DayCare {
   return {
     fruit: c.fruit ?? '',
     liveFood: c.liveFood ?? '',
-    vitamin: c.vitamin ?? '',
+    notes: c.notes ?? c.vitamin ?? '',
     sunbathingTime: c.sunbathingTime ?? '',
     sunbathingDuration: c.sunbathingDuration ?? legacyDuration(c.sunbathing),
     bathingTime: c.bathingTime ?? legacyBathingTime(c.bathing),
@@ -41,7 +42,7 @@ export function hasCareContent(care: DayCare): boolean {
   return (
     !!care.fruit.trim() ||
     !!care.liveFood.trim() ||
-    !!care.vitamin.trim() ||
+    !!care.notes.trim() ||
     !!care.sunbathingTime.trim() ||
     !!care.sunbathingDuration.trim() ||
     !!care.bathingTime.trim()
@@ -54,8 +55,8 @@ export function getCareDisplayValue(care: DayCare, key: string): string {
       return care.fruit.trim()
     case 'liveFood':
       return care.liveFood.trim()
-    case 'vitamin':
-      return care.vitamin.trim()
+    case 'notes':
+      return care.notes.trim()
     case 'sunbathing':
       return formatTimedCare(care.sunbathingTime, care.sunbathingDuration)
     case 'bathing':

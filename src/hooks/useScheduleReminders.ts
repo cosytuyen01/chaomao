@@ -159,7 +159,7 @@ export async function sendTestNotification(
     {
       id: 'test-today',
       time: '--:--',
-      title: 'Chào Chào Mao — Hôm nay',
+      title: 'Chào Mào — Hôm nay',
       body: care.fruit.trim() || 'Chưa có lịch phơi nắng hôm nay',
     },
     onInApp,

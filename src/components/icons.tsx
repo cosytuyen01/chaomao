@@ -26,8 +26,10 @@ import {
   Settings,
   Sun,
   Trophy,
+  Wallet,
   Wheat,
   X,
+  User,
 } from 'lucide-react'
 
 export {
@@ -57,6 +59,8 @@ export {
   Settings,
   Sun,
   Trophy,
+  User,
+  Wallet,
   Wheat,
   X,
 }
@@ -72,8 +76,8 @@ export const NAV_ITEMS: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/', label: 'Trang chủ', icon: Home },
   { to: '/birds', label: 'Chiến binh', icon: Bird },
   { to: '/che-do-di', label: 'Chế độ', icon: Calendar },
-  { to: '/records', label: 'Nhật ký', icon: NotebookPen },
-  { to: '/settings', label: 'Cài đặt', icon: Settings },
+  { to: '/chi-tieu', label: 'Chi tiêu', icon: Wallet },
+  { to: '/settings', label: 'Tài khoản', icon: User },
 ]
 
 export const CARE_ICONS: Record<string, LucideIcon> = {
@@ -81,6 +85,7 @@ export const CARE_ICONS: Record<string, LucideIcon> = {
   liveFood: Bug,
   pellets: Wheat,
   vitamin: Pill,
+  notes: NotebookPen,
   sunbathing: Sun,
   bathing: Bath,
 }

@@ -61,6 +61,19 @@ export default function ScheduleReadOnlyView({ schedule }: ScheduleReadOnlyViewP
                       </div>
                     )
                   })}
+                  {care.notes.trim() && (
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <CARE_ICONS.notes className="h-4 w-4" strokeWidth={2} />
+                      </span>
+                      <div className="min-w-0">
+                        <p className="text-xs text-text-muted">Ghi chú</p>
+                        <p className="font-medium text-text whitespace-pre-wrap">
+                          {care.notes.trim()}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             </div>

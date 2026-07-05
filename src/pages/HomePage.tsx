@@ -82,7 +82,7 @@ export default function HomePage() {
       />
 
       <section>
-        <SectionHeader title="Nhật ký gần đây" linkTo="/records" />
+        <SectionHeader title="Nhật ký gần đây" />
 
         {recentRecords.slice(0, 3).length === 0 ? (
           <div className="card-modern p-6 text-center text-sm text-text-muted">

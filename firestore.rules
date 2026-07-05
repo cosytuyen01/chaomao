@@ -23,6 +23,19 @@ service cloud.firestore {
       allow read, write: if isSignedIn();
     }
 
+    match /expenseBudgets/{docId} {
+      allow read: if isSignedIn()
+        && (resource == null || resource.data.userId == request.auth.uid);
+      allow create, update: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    match /expenses/{expenseId} {
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.userId == request.auth.uid;
+    }
+
     match /records/{recordId} {
       allow read: if isSignedIn();
       allow create: if isSignedIn()

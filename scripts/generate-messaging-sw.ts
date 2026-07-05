@@ -30,7 +30,7 @@ firebase.initializeApp({
 const messaging = firebase.messaging()
 
 messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification?.title || payload.data?.title || 'Chào Chào Mao'
+  const title = payload.notification?.title || payload.data?.title || 'Chào Mào'
   const options = {
     body: payload.notification?.body || payload.data?.body || '',
     icon: '/logochaomao.png',

@@ -10,7 +10,7 @@ export type DayKey =
 export interface DayCare {
   fruit: string
   liveFood: string
-  vitamin: string
+  notes: string
   sunbathingTime: string
   sunbathingDuration: string
   bathingTime: string
@@ -65,19 +65,18 @@ export interface Bird {
 export const EMPTY_CARE: DayCare = {
   fruit: '',
   liveFood: '',
-  vitamin: '',
+  notes: '',
   sunbathingTime: '',
   sunbathingDuration: '',
   bathingTime: '',
 }
 
 export const SIMPLE_CARE_ITEMS: {
-  key: 'fruit' | 'liveFood' | 'vitamin'
+  key: 'fruit' | 'liveFood'
   label: string
 }[] = [
   { key: 'fruit', label: 'Hoa quả' },
   { key: 'liveFood', label: 'Mồi tươi' },
-  { key: 'vitamin', label: 'Vitamin' },
 ]
 
 export const TIMED_CARE_ITEMS: {
@@ -106,6 +105,7 @@ export const TIMED_CARE_ITEMS: {
 export const CARE_ITEMS: { key: string; label: string }[] = [
   ...SIMPLE_CARE_ITEMS,
   ...TIMED_CARE_ITEMS.map((item) => ({ key: item.iconKey, label: item.label })),
+  { key: 'notes', label: 'Ghi chú' },
 ]
 
 export const DAY_LABELS: Record<DayKey, string> = {

@@ -6,6 +6,7 @@ interface DetailHeroProps {
   imageAlt: string
   title: string
   subtitle: string
+  showBack?: boolean
 }
 
 export default function DetailHero({
@@ -13,6 +14,7 @@ export default function DetailHero({
   imageAlt,
   title,
   subtitle,
+  showBack = true,
 }: DetailHeroProps) {
   const navigate = useNavigate()
 
@@ -28,21 +30,25 @@ export default function DetailHero({
         aria-hidden
       />
 
-      <div className="relative flex h-full flex-col justify-between px-4 pb-14 pt-[max(0.75rem,env(safe-area-inset-top))]">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          aria-label="Quay lại"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition hover:bg-white/30"
-        >
-          <ChevronLeft className="h-6 w-6" strokeWidth={2} />
-        </button>
+      <div className="relative flex h-full flex-col px-4 pb-14 pt-[max(0.75rem,env(safe-area-inset-top))]">
+        <div className="flex items-start gap-3">
+          {showBack && (
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              aria-label="Quay lại"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition hover:bg-white/30"
+            >
+              <ChevronLeft className="h-6 w-6" strokeWidth={2} />
+            </button>
+          )}
 
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-white drop-shadow-md">
-            {title}
-          </h1>
-          <p className="mt-0.5 text-sm text-white/85 drop-shadow-sm">{subtitle}</p>
+          <div className="min-w-0 flex-1 pt-0.5">
+            <h1 className="text-2xl font-bold tracking-tight text-white drop-shadow-md">
+              {title}
+            </h1>
+            <p className="mt-0.5 text-sm text-white/85 drop-shadow-sm">{subtitle}</p>
+          </div>
         </div>
       </div>
     </div>

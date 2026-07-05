@@ -1,12 +1,12 @@
-# Chào Chào Mao — Quản lý sinh hoạt CLB
+# Chào Mào — Quản lý sinh hoạt CLB
 
-Web quản lý thông tin sinh hoạt CLB Chào Chào Mao, xây dựng bằng **React** + **Firebase**.
+Web quản lý thông tin sinh hoạt CLB Chào Mào, xây dựng bằng **React** + **Firebase**.
 
 ## Tính năng
 
 - **Lịch sinh hoạt tuần** — 7 ngày (Thứ 2 → Chủ nhật), để trống để thành viên điền hoạt động (VD: Thứ 2 ăn trái cây gì)
 - **Đăng ký / Đăng nhập** — Firebase Authentication (email + mật khẩu)
-- **Ghi chép đi dợt & đi thi** — Lưu lại thông tin mỗi lần đi dợt hoặc đi thi
+- **Nhật ký đi dợt & đi thi** — Lưu lại thông tin mỗi lần đi dợt hoặc đi thi
 - **Thông báo hàng ngày** — Nhắc hoạt động hôm nay theo lịch tuần (Browser Notification)
 
 ## Cài đặt
@@ -63,7 +63,7 @@ Mở http://localhost:5173
 | Collection / Document | Mô tả |
 |---|---|
 | `club/schedule` | Lịch sinh hoạt 7 ngày (dùng chung cho CLB) |
-| `records` | Ghi chép đi dợt / đi thi |
+| `records` | Nhật ký đi dợt / đi thi |
 | `users/{uid}` | Thông tin thành viên |
 | `notificationSettings/{uid}` | Cài đặt thông báo cá nhân |
 

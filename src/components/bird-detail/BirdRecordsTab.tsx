@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import {
   addDoc,
   collection,
@@ -10,8 +9,6 @@ import {
 import { db } from '../../firebase/config'
 import { useAuth } from '../../context/AuthContext'
 import {
-  ChevronRight,
-  Clock,
   Link2,
   PenLine,
   RECORD_ICONS,
@@ -45,7 +42,6 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
     type: 'di-dot' as RecordType,
     title: '',
     date: new Date().toISOString().split('T')[0],
-    time: '',
     videoUrl: '',
     notes: '',
   })
@@ -61,7 +57,6 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
         type: form.type,
         title: form.title.trim(),
         date: form.date,
-        time: form.time.trim(),
         videoUrl: form.videoUrl.trim(),
         notes: form.notes.trim(),
         birdId,
@@ -75,37 +70,32 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
         type: form.type,
         title: '',
         date: new Date().toISOString().split('T')[0],
-        time: '',
         videoUrl: '',
         notes: '',
       })
     } catch (err) {
       console.error('save record:', err)
-      setSaveError('Không lưu được ghi chép. Kiểm tra kết nối hoặc quyền Firestore.')
+      setSaveError('Không lưu được Nhật ký. Kiểm tra kết nối hoặc quyền Firestore.')
     } finally {
       setSubmitting(false)
     }
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Xóa ghi chép này?')) return
+    if (!confirm('Xóa Nhật ký này?')) return
     await deleteDoc(doc(db, 'records', id))
   }
 
   const typeLabel = (type: RecordType) =>
     RECORD_TYPES.find((t) => t.value === type)?.label ?? type
 
-  const formatRecordDate = (date: string, time?: string) => {
-    const formatted = new Date(date).toLocaleDateString('vi-VN')
-    return time ? `${formatted} · ${time}` : formatted
-  }
-
-  const recentRecords = records.slice(0, 5)
+  const formatRecordDate = (date: string) =>
+    new Date(date).toLocaleDateString('vi-VN')
 
   return (
     <div className="space-y-5">
       <form className="card-modern flex flex-col gap-4 p-5" onSubmit={handleSubmit}>
-        <h3 className="text-lg font-bold text-text">Thêm ghi chép — {birdName}</h3>
+        <h3 className="text-lg font-bold text-text">Thêm Nhật ký — {birdName}</h3>
 
         <div className="flex gap-2">
           {RECORD_TYPES.map((t) => {
@@ -148,32 +138,15 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
           </div>
         </label>
 
-        <div className="grid grid-cols-2 gap-3">
-          <label className={labelClass}>
-            Ngày
-            <input
-              type="date"
-              className={inputClass}
-              value={form.date}
-              onChange={(e) => setForm({ ...form, date: e.target.value })}
-            />
-          </label>
-          <label className={labelClass}>
-            Thời gian
-            <div className="relative">
-              <input
-                type="time"
-                className={`${inputClass} pr-11`}
-                value={form.time}
-                onChange={(e) => setForm({ ...form, time: e.target.value })}
-              />
-              <Clock
-                className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
-                strokeWidth={2}
-              />
-            </div>
-          </label>
-        </div>
+        <label className={labelClass}>
+          Ngày
+          <input
+            type="date"
+            className={inputClass}
+            value={form.date}
+            onChange={(e) => setForm({ ...form, date: e.target.value })}
+          />
+        </label>
 
         <label className={labelClass}>
           Link video
@@ -209,7 +182,7 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
           className="btn-primary inline-flex w-full items-center justify-center gap-2 disabled:opacity-60"
         >
           <Save className="h-4 w-4" strokeWidth={2} />
-          {submitting ? 'Đang lưu...' : 'Lưu ghi chép'}
+          {submitting ? 'Đang lưu...' : 'Lưu Nhật ký'}
         </button>
         {saveError && (
           <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">
@@ -220,10 +193,14 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
 
       <section>
         <div className="mb-3 flex items-center justify-between gap-3">
-          <h3 className="text-lg font-bold text-text">Nhật ký gần đây</h3>
-          <Link to="/records" className="text-sm font-semibold text-primary">
-            Xem tất cả &gt;
-          </Link>
+          <h3 className="text-lg font-bold text-text">
+            Nhật ký
+            {records.length > 0 && (
+              <span className="ml-2 text-sm font-semibold text-text-muted">
+                ({records.length})
+              </span>
+            )}
+          </h3>
         </div>
 
         {loading ? (
@@ -232,42 +209,55 @@ export default function BirdRecordsTab({ birdId, birdName }: BirdRecordsTabProps
           <p className="rounded-2xl bg-red-50 px-4 py-3 text-center text-sm text-red-600">
             Không tải được nhật ký: {recordsError}
           </p>
-        ) : recentRecords.length === 0 ? (
+        ) : records.length === 0 ? (
           <div className="card-modern p-6 text-center text-sm text-text-muted">
-            Chưa có ghi chép nào cho {birdName}.
+            Chưa có Nhật ký nào cho {birdName}.
           </div>
         ) : (
           <div className="space-y-3">
-            {recentRecords.map((record) => {
+            {records.map((record) => {
               const Icon = RECORD_ICONS[record.type]
-              const time = record.time
               return (
                 <div
                   key={record.id}
-                  className="group card-modern flex items-center gap-3.5 p-3.5"
+                  className="group card-modern p-3.5"
                 >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  <div className="flex items-start gap-3.5">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                      <Icon className="h-5 w-5" strokeWidth={2} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-text">
+                        {typeLabel(record.type)} · {record.title}
+                      </p>
+                      <p className="mt-0.5 text-sm text-text-muted">
+                        {formatRecordDate(record.date)}
+                      </p>
+                      {record.videoUrl && (
+                        <a
+                          href={record.videoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-1 inline-block text-sm font-medium text-primary underline"
+                        >
+                          Xem video
+                        </a>
+                      )}
+                      {record.notes.trim() && (
+                        <p className="mt-2 whitespace-pre-wrap text-sm text-text">
+                          {record.notes.trim()}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(record.id)}
+                      title="Xóa"
+                      className="shrink-0 rounded-xl p-1.5 text-text-muted transition hover:bg-primary/10 hover:text-primary"
+                    >
+                      <X className="h-4 w-4" strokeWidth={2} />
+                    </button>
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-bold text-text">
-                      {typeLabel(record.type)} · {record.title}
-                    </p>
-                    <p className="truncate text-sm text-text-muted">
-                      {record.videoUrl ? 'Có video' : 'Không có video'}
-                      {' · '}
-                      {formatRecordDate(record.date, time)}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(record.id)}
-                    title="Xóa"
-                    className="shrink-0 rounded-xl p-1.5 text-text-muted opacity-0 transition hover:bg-primary/10 hover:text-primary group-hover:opacity-100"
-                  >
-                    <X className="h-4 w-4" strokeWidth={2} />
-                  </button>
-                  <ChevronRight className="h-5 w-5 shrink-0 text-text-muted/40" strokeWidth={2} />
                 </div>
               )
             })}

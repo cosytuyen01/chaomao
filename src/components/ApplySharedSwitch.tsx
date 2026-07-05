@@ -8,7 +8,7 @@ export default function ApplySharedSwitch({
   onChange,
 }: ApplySharedSwitchProps) {
   return (
-    <label className="flex cursor-pointer items-center justify-between gap-4 rounded-2xl bg-surface p-4 shadow-sm">
+    <label className="flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-border/60 bg-input-blue/50 p-4">
       <div>
         <p className="font-semibold text-text">Áp dụng chế độ chung</p>
         <p className="mt-0.5 text-xs text-text-muted">
