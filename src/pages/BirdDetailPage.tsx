@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { Bird as BirdIcon, Wheat } from '../components/icons'
+import { Wheat } from '../components/icons'
 import { useBirds } from '../hooks/useBirds'
+import { DEFAULT_BIRD_IMAGE } from '../utils/bird'
 
 const labelClass = 'flex flex-col gap-2 text-sm font-medium text-text-muted'
 const inputClass =
@@ -37,7 +38,7 @@ export default function BirdDetailPage() {
   if (!bird) {
     return (
       <div className="rounded-2xl bg-surface p-8 text-center shadow-sm">
-        <p className="font-medium text-text">Không tìm thấy chim</p>
+        <p className="font-medium text-text">Không tìm thấy Chiến binh</p>
         <Link to="/birds" className="mt-4 inline-block text-sm text-primary">
           ← Quay lại
         </Link>
@@ -59,7 +60,7 @@ export default function BirdDetailPage() {
     setMessage('')
 
     if (!name.trim()) {
-      setError('Vui lòng nhập tên chim.')
+      setError('Vui lòng nhập tên Chiến binh.')
       return
     }
     if (Number.isNaN(seasonsNum) || seasonsNum < 0) {
@@ -74,7 +75,7 @@ export default function BirdDetailPage() {
         seasons: seasonsNum,
         pellets: pellets.trim(),
       })
-      setMessage('Đã lưu thông tin chim!')
+      setMessage('Đã lưu thông tin Chiến binh!')
       setTimeout(() => setMessage(''), 3000)
     } catch {
       setError('Không thể lưu. Vui lòng thử lại.')
@@ -92,8 +93,12 @@ export default function BirdDetailPage() {
   return (
     <div>
       <div className="mb-6 flex flex-col items-center">
-        <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-sky-100 to-blue-50 text-primary">
-          <BirdIcon className="h-14 w-14" strokeWidth={1.5} />
+        <div className="h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-sky-100 to-blue-50 shadow-sm">
+          <img
+            src={DEFAULT_BIRD_IMAGE}
+            alt={bird.name}
+            className="h-full w-full object-cover"
+          />
         </div>
         <h1 className="mt-3 text-xl font-bold text-text">{bird.name}</h1>
       </div>
@@ -103,7 +108,7 @@ export default function BirdDetailPage() {
         className="space-y-4 rounded-2xl bg-surface p-5 shadow-sm"
       >
         <label className={labelClass}>
-          Tên chim
+          Tên Chiến binh
           <input
             type="text"
             className={inputClass}
@@ -168,7 +173,7 @@ export default function BirdDetailPage() {
         onClick={handleDelete}
         className="mt-3 w-full rounded-xl py-3 text-sm font-medium text-primary/80 hover:bg-primary/5"
       >
-        Xóa chim
+        Xóa Chiến binh
       </button>
     </div>
   )

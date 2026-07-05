@@ -2,11 +2,13 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useBirdRecords } from '../hooks/useBirdRecords'
 import ReferenceScheduleSection from '../components/ReferenceScheduleSection'
+import MemberListSection from '../components/MemberListSection'
 import TodayScheduleSlider from '../components/TodayScheduleSlider'
 import BirdCard from '../components/BirdCard'
 import { useBirds } from '../hooks/useBirds'
 import { useAllBirdSchedules } from '../hooks/useAllBirdSchedules'
 import { useReferenceSchedules } from '../hooks/useReferenceSchedules'
+import { useMembers } from '../hooks/useMembers'
 import { getTodaySchedule } from '../utils/schedule'
 import type { LucideIcon } from 'lucide-react'
 import { Plus, RECORD_ICONS } from '../components/icons'
@@ -24,6 +26,7 @@ export default function HomePage() {
     useAllBirdSchedules(birds)
   const { entries: referenceEntries, loading: referenceLoading } =
     useReferenceSchedules(user?.uid)
+  const { members, loading: membersLoading } = useMembers(user?.uid)
   const { records: recentRecords } = useBirdRecords(user?.uid)
 
   const scheduleSlides = scheduleEntries.map((entry) => ({
@@ -44,7 +47,7 @@ export default function HomePage() {
 
       <section>
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-text">Chim của tôi</h2>
+          <h2 className="text-lg font-bold text-text">Chiến binh của tôi</h2>
           <Link to="/birds" className="text-sm font-medium text-primary">
             Xem tất cả &gt;
           </Link>
@@ -72,6 +75,8 @@ export default function HomePage() {
           )}
         </div>
       </section>
+
+      <MemberListSection members={members} loading={membersLoading} />
 
       <ReferenceScheduleSection
         entries={referenceEntries}

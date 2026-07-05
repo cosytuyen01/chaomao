@@ -3,9 +3,8 @@ import { useParams } from 'react-router-dom'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import ScheduleReadOnlyView from '../components/ScheduleReadOnlyView'
-import { Bird as BirdIcon } from '../components/icons'
 import { useBirdSchedule } from '../hooks/useBirdSchedule'
-import { formatSeasons } from '../utils/bird'
+import { DEFAULT_BIRD_IMAGE, formatSeasons } from '../utils/bird'
 import { resolveOwnerName } from '../utils/user'
 
 export default function ReferenceSchedulePage() {
@@ -87,14 +86,18 @@ export default function ReferenceSchedulePage() {
   return (
     <div>
       <div className="mb-5 flex items-center gap-3 rounded-xl border border-border/80 bg-white p-4 shadow-sm">
-        <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-          <BirdIcon className="h-8 w-8" strokeWidth={1.5} />
+        <span className="h-14 w-14 shrink-0 overflow-hidden rounded-full bg-primary/10 shadow-sm">
+          <img
+            src={DEFAULT_BIRD_IMAGE}
+            alt={birdName}
+            className="h-full w-full object-cover"
+          />
         </span>
         <div className="min-w-0">
           <h2 className="truncate text-lg font-bold text-text">{birdName}</h2>
           {ownerName && (
             <p className="text-sm text-text-muted">
-              Chủ chim: <span className="font-medium text-text">{ownerName}</span>
+              Chủ Chiến binh: <span className="font-medium text-text">{ownerName}</span>
             </p>
           )}
           <span className="mt-1 inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">

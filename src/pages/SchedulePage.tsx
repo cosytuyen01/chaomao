@@ -88,7 +88,7 @@ export default function SchedulePage() {
       )
       setMessage(
         applyToAll
-          ? `Đã lưu chế độ chung cho ${birds.length} chim!`
+          ? `Đã lưu chế độ chung cho ${birds.length} Chiến binh!`
           : 'Đã lưu chế độ!',
       )
       setTimeout(() => setMessage(''), 3000)
@@ -106,7 +106,7 @@ export default function SchedulePage() {
   if (birds.length === 0) {
     return (
       <div className="rounded-2xl bg-surface p-8 text-center shadow-sm">
-        <p className="font-medium text-text">Chưa có chim nào</p>
+        <p className="font-medium text-text">Chưa có Chiến binh nào</p>
         <p className="mt-1 text-sm text-text-muted">
           Thêm chào mào trước khi tạo chế độ.
         </p>
@@ -128,7 +128,7 @@ export default function SchedulePage() {
         <p className="text-sm text-text-muted">
           {applyToAll
             ? 'chế độ chung cho tất cả chiến binh của bạn'
-            : `chế độ riêng cho ${selectedBird?.name ?? 'chim'}`}
+            : `chế độ riêng cho ${selectedBird?.name ?? 'Chiến binh'}`}
         </p>
       </div>
 
@@ -137,7 +137,7 @@ export default function SchedulePage() {
 
         {!applyToAll && (
           <div>
-            <p className="mb-2 text-sm font-medium text-text-muted">Chọn chim</p>
+            <p className="mb-2 text-sm font-medium text-text-muted">Chọn Chiến binh</p>
             <BirdSelector
               birds={birds}
               selectedId={activeBirdId}

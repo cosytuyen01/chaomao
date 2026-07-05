@@ -11,7 +11,7 @@ export default function BirdsPage() {
   const { birds, loading, removeBird } = useBirds(user?.uid)
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Xóa chim này?')) return
+    if (!confirm('Xóa Chiến binh này?')) return
     await removeBird(id)
   }
 
@@ -31,7 +31,7 @@ export default function BirdsPage() {
       ) : birds.length === 0 ? (
         <div className="rounded-xl border border-border/80 bg-white p-10 text-center shadow-sm">
           <Bird className="mx-auto h-14 w-14 text-primary/50" strokeWidth={1.5} />
-          <p className="mt-3 font-medium text-text">Chưa có chim nào</p>
+          <p className="mt-3 font-medium text-text">Chưa có Chiến binh nào</p>
           <p className="mt-1 text-sm text-text-muted">
             Nhấn nút + góc dưới để thêm chiến binh
           </p>

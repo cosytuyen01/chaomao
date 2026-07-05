@@ -32,7 +32,7 @@ export default function AddBirdPage() {
     setError('')
 
     if (!name.trim()) {
-      setError('Vui lòng nhập tên chim.')
+      setError('Vui lòng nhập tên Chiến binh.')
       return
     }
 
@@ -60,7 +60,7 @@ export default function AddBirdPage() {
       className="space-y-4 rounded-2xl border border-border/80 bg-white p-5 shadow-sm"
     >
       <label className={labelClass}>
-        Tên chim
+        Tên Chiến binh
         <input
           type="text"
           className={inputClass}
@@ -100,7 +100,7 @@ export default function AddBirdPage() {
       </label>
 
       <p className="text-xs text-text-muted">
-        Nhập <strong>0</strong> nếu chim là <strong>bổi rừng</strong>.
+        Nhập <strong>0</strong> nếu Chiến binh là <strong>bổi rừng</strong>.
       </p>
 
       {error && (

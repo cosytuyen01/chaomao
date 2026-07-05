@@ -91,7 +91,7 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
         <div className="mb-6">
           <h2 className="text-xl font-bold text-text">Thông báo theo chế độ đi</h2>
           <p className="mt-1 text-sm text-text-muted">
-            Nhắc đúng giờ phơi nắng và tắm theo chế độ từng chim.
+            Nhắc đúng giờ phơi nắng và tắm theo chế độ từng Chiến binh.
           </p>
         </div>
       )}

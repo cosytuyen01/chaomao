@@ -5,8 +5,8 @@ import { Bell, ChevronLeft } from './icons'
 const PAGE_META: { path: string; title: string; subtitle: string }[] = [
   { path: '/', title: 'Trang chủ', subtitle: 'Quản lý sinh hoạt CLB' },
   { path: '/birds/new', title: 'Thêm chào mào', subtitle: 'Thêm chiến binh mới' },
-  { path: '/birds', title: 'Chim của tôi', subtitle: 'Danh sách chiến binh' },
-  { path: '/birds/:birdId', title: 'Chi tiết chim', subtitle: 'Thông tin chiến binh' },
+  { path: '/birds', title: 'Chiến binh của tôi', subtitle: 'Danh sách chiến binh' },
+  { path: '/birds/:birdId', title: 'Chi tiết Chiến binh', subtitle: 'Thông tin chiến binh' },
   {
     path: '/che-do-di/tham-khao/:birdId',
     title: 'Tham khảo Chế độ',
@@ -14,6 +14,12 @@ const PAGE_META: { path: string; title: string; subtitle: string }[] = [
   },
   { path: '/che-do-di', title: 'Chế độ', subtitle: 'Chăm sóc 7 ngày trong tuần' },
   { path: '/records', title: 'Nhật ký', subtitle: 'Ghi chép đi dợt & đi thi' },
+  { path: '/thanh-vien/:userId', title: 'Thành viên', subtitle: 'Profile thành viên CLB' },
+  {
+    path: '/thanh-vien/:userId/chim/:birdId/nhat-ky',
+    title: 'Nhật ký Chiến binh',
+    subtitle: 'Nhật ký của thành viên khác',
+  },
   { path: '/settings', title: 'Cài đặt', subtitle: 'Tài khoản & thông báo' },
 ]
 
@@ -21,6 +27,8 @@ const BACK_PATHS = [
   '/birds/new',
   '/birds/:birdId',
   '/che-do-di/tham-khao/:birdId',
+  '/thanh-vien/:userId',
+  '/thanh-vien/:userId/chim/:birdId/nhat-ky',
 ]
 
 function getPageMeta(pathname: string) {

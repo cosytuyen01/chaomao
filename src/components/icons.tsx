@@ -50,7 +50,7 @@ export const ICON_SIZE = {
 
 export const NAV_ITEMS: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/', label: 'Trang chủ', icon: Home },
-  { to: '/birds', label: 'Chim', icon: Bird },
+  { to: '/birds', label: 'Chiến binh', icon: Bird },
   { to: '/che-do-di', label: 'chế độ', icon: Calendar },
   { to: '/records', label: 'Nhật ký', icon: NotebookPen },
   { to: '/settings', label: 'Cài đặt', icon: Settings },

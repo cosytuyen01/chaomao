@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { Bird } from '../types'
-import { formatSeasons } from '../utils/bird'
-import { Bird as BirdIcon, X } from './icons'
+import { DEFAULT_BIRD_IMAGE, formatSeasons } from '../utils/bird'
+import { X } from './icons'
 
 interface BirdCardProps {
   bird: Bird
@@ -40,15 +40,16 @@ export default function BirdCard({ bird, onDelete, compact }: BirdCardProps) {
       )}
       <div
         className={[
-          'flex items-center justify-center text-primary/40',
+          'overflow-hidden',
           compact
-            ? 'aspect-square bg-gradient-to-br from-sky-100 to-blue-50 text-primary'
+            ? 'aspect-square bg-gradient-to-br from-sky-100 to-blue-50'
             : 'aspect-[4/3] bg-gray-100',
         ].join(' ')}
       >
-        <BirdIcon
-          className={compact ? 'h-12 w-12 text-primary' : 'h-14 w-14'}
-          strokeWidth={1.5}
+        <img
+          src={DEFAULT_BIRD_IMAGE}
+          alt={bird.name}
+          className="h-full w-full object-cover"
         />
       </div>
       <div className={compact ? 'p-3 text-center' : 'space-y-1.5 p-3'}>

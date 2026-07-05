@@ -16,7 +16,7 @@ service cloud.firestore {
     }
 
     match /records/{recordId} {
-      allow read: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow read: if isSignedIn();
       allow create: if isSignedIn()
         && request.resource.data.ownerId == request.auth.uid
         && get(/databases/$(database)/documents/birds/$(request.resource.data.birdId)).data.ownerId == request.auth.uid;
