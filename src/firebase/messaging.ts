@@ -34,19 +34,24 @@ export async function registerPushToken(userId: string): Promise<string | null> 
   if (!(await isSupported())) return null
   if (Notification.permission !== 'granted') return null
 
-  const registration = await registerServiceWorker()
-  if (!registration) return null
+  try {
+    const registration = await registerServiceWorker()
+    if (!registration) return null
 
-  const messaging = getMessaging(app)
-  const token = await getToken(messaging, {
-    vapidKey: VAPID_KEY,
-    serviceWorkerRegistration: registration,
-  })
+    const messaging = getMessaging(app)
+    const token = await getToken(messaging, {
+      vapidKey: VAPID_KEY,
+      serviceWorkerRegistration: registration,
+    })
 
-  if (!token) return null
+    if (!token) return null
 
-  await saveFcmToken(userId, token)
-  return token
+    await saveFcmToken(userId, token)
+    return token
+  } catch (error) {
+    console.error('registerPushToken:', error)
+    return null
+  }
 }
 
 export function listenForForegroundPush(

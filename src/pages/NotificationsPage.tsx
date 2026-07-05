@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { doc, onSnapshot, setDoc } from 'firebase/firestore'
+import { collection, doc, onSnapshot, setDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'
 import { useAuth } from '../context/AuthContext'
 import { useReminderBanner } from '../context/ReminderContext'
@@ -39,6 +39,7 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
   const [pushReady, setPushReady] = useState(false)
+  const [pushError, setPushError] = useState('')
 
   const reminders = getTodayRemindersPreview(entries)
   const mobile = isMobileDevice()
@@ -62,14 +63,30 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
     return unsubSettings
   }, [user])
 
+  useEffect(() => {
+    if (!user) {
+      setPushReady(false)
+      return
+    }
+
+    return onSnapshot(collection(db, 'users', user.uid, 'fcmTokens'), (snap) => {
+      setPushReady(!snap.empty)
+    })
+  }, [user])
+
   const handleEnable = async () => {
+    setPushError('')
     const granted = await requestNotificationPermission()
     setPermission(Notification.permission)
     if (granted) {
       setSettings((s) => ({ ...s, enabled: true }))
       if (user) {
         const token = await registerPushToken(user.uid)
-        setPushReady(Boolean(token))
+        if (!token) {
+          setPushError(
+            'Không đăng ký được push. Hãy mở app từ icon Màn hình chính rồi thử lại.',
+          )
+        }
       }
     }
   }
@@ -77,6 +94,7 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
   const handleSave = async () => {
     if (!user) return
     setSaving(true)
+    setPushError('')
     try {
       await setDoc(doc(db, 'notificationSettings', user.uid), {
         ...settings,
@@ -84,7 +102,11 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
       })
       if (settings.enabled && Notification.permission === 'granted') {
         const token = await registerPushToken(user.uid)
-        setPushReady(Boolean(token))
+        if (!token) {
+          setPushError(
+            'Đã lưu nhưng chưa đăng ký push. Mở app từ icon Màn hình chính và thử lại.',
+          )
+        }
       }
       setMessage('Đã lưu cài đặt thông báo!')
       setTimeout(() => setMessage(''), 3000)
@@ -115,8 +137,8 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
                 ? 'iPhone: Safari → Chia sẻ → Thêm vào Màn hình chính, mở từ icon.'
                 : 'Android: Chrome → menu → Thêm vào Màn hình chính.'}
             </li>
-            <li>Bật thông báo và nhấn <strong>Lưu cài đặt</strong> để đăng ký push.</li>
-            <li>Sau khi setup, có thể tắt app — server sẽ gửi push đúng giờ.</li>
+            <li>Bật thông báo và nhấn <strong>Lưu cài đặt</strong> — phải thấy &quot;Đã đăng ký push&quot;.</li>
+            <li>App tắt vẫn nhận được nhờ server gửi push mỗi phút (cần cấu hình Vercel).</li>
             {!isPushConfigured() && (
               <li className="text-amber-700">
                 Cần thêm VAPID key (VITE_FIREBASE_VAPID_KEY) để push khi tắt app.
@@ -186,9 +208,21 @@ export default function NotificationsPage({ embedded }: { embedded?: boolean }) 
               App tắt: push từ server nếu đã thêm Màn hình chính.
             </p>
 
-            {pushReady && (
+            {pushReady ? (
               <p className="rounded-xl bg-success/10 px-3 py-2 text-sm text-success">
-                Đã đăng ký push — có thể nhận thông báo khi tắt app.
+                Đã đăng ký push — server sẽ gửi thông báo khi tắt app.
+              </p>
+            ) : (
+              settings.enabled && (
+                <p className="rounded-xl bg-amber-50 px-3 py-2 text-sm text-amber-800">
+                  Chưa đăng ký push. Mở app từ icon Màn hình chính → Lưu lại cài đặt.
+                </p>
+              )
+            )}
+
+            {pushError && (
+              <p className="rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">
+                {pushError}
               </p>
             )}
 
