@@ -4,20 +4,25 @@ import { getCareDisplayValue, hasCareContent } from '../utils/care'
 
 interface ScheduleReadOnlyViewProps {
   schedule: DaySchedule[]
+  embedded?: boolean
 }
 
-export default function ScheduleReadOnlyView({ schedule }: ScheduleReadOnlyViewProps) {
+export default function ScheduleReadOnlyView({
+  schedule,
+  embedded = false,
+}: ScheduleReadOnlyViewProps) {
+  const dayCardClass = embedded
+    ? 'overflow-hidden rounded-2xl bg-page'
+    : 'card-modern overflow-hidden'
+
   return (
-    <div className="space-y-4">
+    <div className={embedded ? 'space-y-3' : 'space-y-4'}>
       {schedule.map((day) => {
         const care = day.care
         const hasCare = hasCareContent(care)
 
         return (
-          <div
-            key={day.day}
-            className="overflow-hidden rounded-2xl border border-border/80 bg-white shadow-sm"
-          >
+          <div key={day.day} className={dayCardClass}>
             <div className="bg-primary px-4 py-2.5">
               <span className="font-semibold text-white">{day.label}</span>
             </div>

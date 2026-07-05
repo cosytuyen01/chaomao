@@ -21,8 +21,8 @@ const PAGE_META: { path: string; title: string; subtitle: string }[] = [
   { path: '/birds/:birdId', title: 'Chi tiết Chiến binh', subtitle: 'Thông tin chiến binh' },
   {
     path: '/che-do-di/tham-khao/:birdId',
-    title: 'Tham khảo Chế độ',
-    subtitle: 'Chế độ của thành viên khác',
+    title: 'Chi tiết chiến binh',
+    subtitle: 'Chế độ & nhật ký chiến binh',
   },
   { path: '/che-do-di', title: 'Chế độ', subtitle: 'Chăm sóc 7 ngày trong tuần' },
   { path: '/chi-tieu', title: 'Chi tiêu', subtitle: 'Quản lý thu chi cá nhân' },
@@ -170,7 +170,7 @@ export default function PageHeader() {
                 <h1 className="text-2xl font-extrabold tracking-tight text-white drop-shadow-md">
                   {displayName}
                 </h1>
-                <p className="mt-1 text-sm text-white/85 drop-shadow-sm">Chào mào của tôi</p>
+                <p className="mt-1 text-sm text-white/85 drop-shadow-sm">Nơi chiến binh tỏa sáng</p>
               </div>
               <div
                 className="flex items-center self-center"

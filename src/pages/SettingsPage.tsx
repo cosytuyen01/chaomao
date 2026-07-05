@@ -61,7 +61,7 @@ export default function SettingsPage() {
         showBack={false}
       />
 
-      <div className="relative z-10 space-y-4 px-4 pb-2">
+      <div className="relative z-10 space-y-4 px-4 pb-2 -mt-30">
         <MemberProfileCard member={profileMember} stats={stats} isSelf />
 
         <AccountTabs active={activeTab} onChange={setActiveTab} />

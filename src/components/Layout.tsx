@@ -15,13 +15,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isExpensesPage = pathname === '/chi-tieu'
   const isBirdsListPage = pathname === '/birds'
   const isSchedulePage = pathname === '/che-do-di'
+  const isReferenceSchedulePage = Boolean(
+    matchPath('/che-do-di/tham-khao/:birdId', pathname),
+  )
   const isFullBleedDetail =
     isBirdDetail ||
     isMemberDetail ||
     isAccountPage ||
     isExpensesPage ||
     isBirdsListPage ||
-    isSchedulePage
+    isSchedulePage ||
+    isReferenceSchedulePage
 
   return (
     <div className="relative flex min-h-screen flex-col bg-page pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))]">

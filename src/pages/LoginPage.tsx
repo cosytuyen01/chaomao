@@ -58,7 +58,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       title="Chào Mào"
-      subtitle="Nơi đam mê chào mào"
+      subtitle="Nơi chiến binh tỏa sáng"
       footer={
         <span className="inline-flex items-center gap-1">
           Chưa có tài khoản?{' '}

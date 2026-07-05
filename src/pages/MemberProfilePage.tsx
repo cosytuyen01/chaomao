@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { Calendar, NotebookPen } from '../components/icons'
 import DetailHero from '../components/detail/DetailHero'
 import MemberProfileCard from '../components/member-detail/MemberProfileCard'
 import SectionHeader from '../components/SectionHeader'
@@ -53,10 +52,10 @@ export default function MemberProfilePage() {
         imageUrl={HOME_BG}
         imageAlt={member.displayName}
         title="Thành viên"
-        subtitle="Profile thành viên CLB"
+        subtitle="Chi tiết thành viên Chào Mào"
       />
 
-      <div className="relative z-10 space-y-5 px-4 pb-2">
+      <div className="relative z-10 space-y-5 px-4 pb-2 -mt-30">
         <MemberProfileCard member={member} stats={stats} isSelf={isSelf} />
 
         <section>
@@ -69,43 +68,28 @@ export default function MemberProfilePage() {
           ) : (
             <div className="space-y-3">
               {birds.map((bird) => (
-                <div key={bird.id} className="card-modern overflow-hidden">
-                  <div className="flex items-center gap-3.5 p-3.5">
-                    <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 to-blue-100">
-                      <img
-                        src={DEFAULT_BIRD_IMAGE}
-                        alt={bird.name}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-bold text-text">{bird.name}</p>
-                      <span className="badge-pill mt-1">{formatSeasons(bird.seasons)}</span>
-                      {bird.pellets.trim() && (
-                        <p className="mt-1 truncate text-xs text-text-muted">
-                          Cám: {bird.pellets}
-                        </p>
-                      )}
-                    </div>
+                <Link
+                  key={bird.id}
+                  to={`/che-do-di/tham-khao/${bird.id}`}
+                  className="card-modern flex items-center gap-3.5 p-3.5 transition active:scale-[0.99] hover:shadow-lg"
+                >
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br from-sky-50 to-blue-100">
+                    <img
+                      src={DEFAULT_BIRD_IMAGE}
+                      alt={bird.name}
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-
-                  <div className="grid grid-cols-2 border-t border-border/60">
-                    <Link
-                      to={`/che-do-di/tham-khao/${bird.id}`}
-                      className="flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-primary transition hover:bg-primary/5"
-                    >
-                      <Calendar className="h-4 w-4" strokeWidth={2} />
-                      Chế độ
-                    </Link>
-                    <Link
-                      to={`/thanh-vien/${userId}/chim/${bird.id}/nhat-ky`}
-                      className="flex items-center justify-center gap-2 border-l border-border/60 py-3.5 text-sm font-semibold text-primary transition hover:bg-primary/5"
-                    >
-                      <NotebookPen className="h-4 w-4" strokeWidth={2} />
-                      Nhật ký
-                    </Link>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-bold text-text">{bird.name}</p>
+                    <span className="badge-pill mt-1">{formatSeasons(bird.seasons)}</span>
+                    {bird.pellets.trim() && (
+                      <p className="mt-1 truncate text-xs text-text-muted">
+                        Cám: {bird.pellets}
+                      </p>
+                    )}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           )}
