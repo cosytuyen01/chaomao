@@ -10,6 +10,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation()
   const isHome = pathname === '/'
   const isBirdDetail = Boolean(matchPath('/birds/:birdId', pathname))
+  const isMemberDetail = Boolean(matchPath('/thanh-vien/:userId', pathname))
+  const isFullBleedDetail = isBirdDetail || isMemberDetail
 
   return (
     <div className="relative flex min-h-screen flex-col bg-page pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))]">
@@ -31,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <PushNotificationSetup />
       <ReminderBanner />
 
-      {!isBirdDetail && (
+      {!isFullBleedDetail && (
         <div className="sticky top-0 z-40">
           <PageHeader />
         </div>
@@ -40,7 +42,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main
         className={[
           'relative z-10 min-h-[calc(100vh-10rem)] flex-1',
-          isBirdDetail
+          isFullBleedDetail
             ? 'pb-5 pt-0'
             : isHome
               ? '-mt-10 px-4 pb-5 pt-0 md:px-6'

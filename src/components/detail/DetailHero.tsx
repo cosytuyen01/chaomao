@@ -1,31 +1,26 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft } from '../icons'
-import type { DetailTab } from './DetailTabs'
 
-const TAB_SUBTITLES: Record<DetailTab, string> = {
-  info: 'Thông tin chiến binh',
-  schedule: 'Chế độ chiến binh',
-  records: 'Nhật ký chiến binh',
-}
-
-interface BirdDetailHeroProps {
+interface DetailHeroProps {
   imageUrl: string
-  birdName: string
-  activeTab: DetailTab
+  imageAlt: string
+  title: string
+  subtitle: string
 }
 
-export default function BirdDetailHero({
+export default function DetailHero({
   imageUrl,
-  birdName,
-  activeTab,
-}: BirdDetailHeroProps) {
+  imageAlt,
+  title,
+  subtitle,
+}: DetailHeroProps) {
   const navigate = useNavigate()
 
   return (
     <div className="relative h-52 overflow-hidden">
       <img
         src={imageUrl}
-        alt={birdName}
+        alt={imageAlt}
         className="absolute inset-0 h-full w-full object-cover object-top"
       />
       <div
@@ -45,11 +40,9 @@ export default function BirdDetailHero({
 
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-white drop-shadow-md">
-            Chi tiết chiến binh
+            {title}
           </h1>
-          <p className="mt-0.5 text-sm text-white/85 drop-shadow-sm">
-            {TAB_SUBTITLES[activeTab]}
-          </p>
+          <p className="mt-0.5 text-sm text-white/85 drop-shadow-sm">{subtitle}</p>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { Wheat } from '../components/icons'
-import BirdDetailHero from '../components/bird-detail/BirdDetailHero'
+import DetailHero from '../components/detail/DetailHero'
 import BirdProfileCard from '../components/bird-detail/BirdProfileCard'
 import BirdRecordsTab from '../components/bird-detail/BirdRecordsTab'
 import BirdScheduleTab from '../components/bird-detail/BirdScheduleTab'
@@ -14,6 +14,12 @@ import { DEFAULT_BIRD_IMAGE } from '../utils/bird'
 const labelClass = 'flex flex-col gap-2 text-sm font-medium text-text-muted'
 const inputClass =
   'rounded-2xl border border-border/60 bg-input-blue px-4 py-3 text-base text-text focus:ring-3 focus:ring-primary/15 focus:outline-none'
+
+const TAB_SUBTITLES: Record<DetailTab, string> = {
+  info: 'Thông tin chiến binh',
+  schedule: 'Chế độ chiến binh',
+  records: 'Nhật ký chiến binh',
+}
 
 const TAB_PARAM_MAP: Record<string, DetailTab> = {
   info: 'info',
@@ -141,10 +147,11 @@ export default function BirdDetailPage() {
 
   return (
     <div className="bg-page">
-      <BirdDetailHero
+      <DetailHero
         imageUrl={DEFAULT_BIRD_IMAGE}
-        birdName={displayName}
-        activeTab={activeTab}
+        imageAlt={displayName}
+        title="Chi tiết chiến binh"
+        subtitle={TAB_SUBTITLES[activeTab]}
       />
 
       <div className="relative z-10 space-y-4 px-4 pb-2">
