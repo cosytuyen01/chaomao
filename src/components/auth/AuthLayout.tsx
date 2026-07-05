@@ -14,10 +14,10 @@ export default function AuthLayout({
   footer,
 }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen bg-primary">
-      <div className="relative overflow-hidden px-5 pb-14 pt-8">
+    <div className="flex min-h-screen flex-col bg-page">
+      <div className="relative overflow-hidden bg-primary px-5 pb-12 pt-8">
         <div
-          className="pointer-events-none absolute inset-0 bg-cover bg-right-top opacity-30"
+          className="pointer-events-none absolute inset-0 bg-cover bg-right-top"
           style={{ backgroundImage: "url('/bgpage.png')" }}
           aria-hidden
         />
@@ -34,9 +34,11 @@ export default function AuthLayout({
         </div>
       </div>
 
-      <div className="relative bg-white px-5 py-8">
-        {children}
-        <div className="mt-7 text-center text-sm text-text-muted">{footer}</div>
+      <div className="flex flex-1 flex-col bg-page px-5 py-8">
+        <div className="rounded-2xl border border-border/80 bg-white p-6 shadow-sm">
+          {children}
+        </div>
+        <div className="mt-6 text-center text-sm text-text-muted">{footer}</div>
       </div>
     </div>
   )

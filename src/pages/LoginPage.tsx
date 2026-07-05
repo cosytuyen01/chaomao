@@ -43,7 +43,7 @@ export default function LoginPage() {
       footer={
         <>
           Chưa có tài khoản?{' '}
-          <Link to="/register" className="font-semibold text-auth-primary hover:underline">
+          <Link to="/register" className="font-semibold text-primary hover:underline">
             Đăng ký ngay
           </Link>
         </>
@@ -72,7 +72,7 @@ export default function LoginPage() {
         />
 
         {error && (
-          <p className="rounded-xl bg-auth-primary/8 px-4 py-2.5 text-sm text-auth-primary">
+          <p className="rounded-xl bg-primary/8 px-4 py-2.5 text-sm text-primary">
             {error}
           </p>
         )}
@@ -80,7 +80,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={submitting}
-          className="mt-1 w-full rounded-xl bg-auth-primary px-4 py-3.5 text-base font-semibold text-white transition hover:bg-auth-primary-dark disabled:opacity-60"
+          className="mt-1 w-full rounded-xl bg-primary px-4 py-3.5 text-base font-semibold text-white transition hover:bg-primary-dark disabled:opacity-60"
         >
           {submitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
         </button>
