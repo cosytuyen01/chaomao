@@ -20,7 +20,7 @@ export default function BirdCard({ bird, onDelete, compact }: BirdCardProps) {
     <Link
       to={`/birds/${bird.id}`}
       className={[
-        'relative block shrink-0 overflow-hidden bg-white transition active:scale-[0.98]',
+        'relative block shrink-0 overflow-hidden bg-page transition active:scale-[0.98]',
         compact
           ? 'w-[128px] rounded-3xl shadow-[var(--shadow-card)] hover:shadow-lg'
           : 'w-full rounded-3xl shadow-[var(--shadow-card)] hover:shadow-lg',

@@ -52,7 +52,7 @@ export default function ExpenseSummaryCard({
   }
 
   return (
-    <div className="card-modern -mt-12 p-4">
+    <div className="card-modern -mt-30 p-4">
       <div className="flex items-center justify-between gap-3">
         <button
           type="button"
